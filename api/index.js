@@ -28,9 +28,19 @@ app.use(cookieParser()); // Parses cookies for session management
 
 // CORS Configuration - Allows your React frontend to connect and send cookies
 app.use(cors({
-    origin: 'http://localhost:3000', // Assuming React runs on port 3000
+    origin: 'http://localhost:5173', // Assuming React runs on port 3000
     credentials: true 
 }));
+
+app.use((req, res, next) => {
+    Object.defineProperty(req, 'query', {
+        value: req.query,
+        writable: true,
+        configurable: true,
+        enumerable: true,
+    });
+    next();
+});
 
 app.use(mongoSanitize());
 

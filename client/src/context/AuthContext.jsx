@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import { AuthContext } from './AuthContext.store';
+import { createContext, useState } from 'react';
 import api from '../utils/axios';
+
+// 1. Create and export the context directly here
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     // Check if we have user data saved in local storage on initial load
