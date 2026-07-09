@@ -9,10 +9,15 @@ import authRoutes from './routes/auth.routes.js';
 import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import hpp from 'hpp';
+
 import projectRoutes from './routes/project.routes.js';
 import reportRoutes from './routes/report.routes.js';
+import dns from "node:dns/promises";
 
 dotenv.config();
+
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
+
 
 const app = express();
 
