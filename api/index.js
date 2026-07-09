@@ -6,6 +6,9 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import authRoutes from './routes/auth.routes.js';
+import mongoSanitize from 'express-mongo-sanitize';
+import xss from 'xss-clean';
+import hpp from 'hpp';
 
 dotenv.config();
 
@@ -21,6 +24,14 @@ app.use(cors({
     origin: 'http://localhost:3000', // Assuming React runs on port 3000
     credentials: true 
 }));
+
+app.use(mongoSanitize());
+
+// Prevent XSS attacks
+app.use(xss());
+
+// Prevent http param pollution
+app.use(hpp());
 
 // Rate Limiting - Prevents brute force attacks
 const limiter = rateLimit({
