@@ -9,6 +9,8 @@ import authRoutes from './routes/auth.routes.js';
 import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import hpp from 'hpp';
+import projectRoutes from './routes/project.routes.js';
+import reportRoutes from './routes/report.routes.js';
 
 dotenv.config();
 
@@ -41,6 +43,8 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter); 
 app.use('/api/auth', authRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/reports', reportRoutes);
 
 // --- Database Connection ---
 mongoose.connect(process.env.MONGO_URI)
