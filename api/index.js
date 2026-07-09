@@ -5,6 +5,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import authRoutes from './routes/auth.routes.js';
 
 dotenv.config();
 
@@ -28,7 +29,7 @@ const limiter = rateLimit({
     message: 'Too many requests from this IP, please try again later.'
 });
 app.use('/api', limiter); 
-
+app.use('/api/auth', authRoutes);
 
 // --- Database Connection ---
 mongoose.connect(process.env.MONGO_URI)
