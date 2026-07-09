@@ -13,7 +13,7 @@ import hpp from 'hpp';
 import projectRoutes from './routes/project.routes.js';
 import reportRoutes from './routes/report.routes.js';
 import dns from "node:dns/promises";
-
+import aiRoutes from './routes/ai.routes.js';
 dotenv.config();
 
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
@@ -50,7 +50,7 @@ app.use('/api', limiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/reports', reportRoutes);
-
+app.use('/api/ai', aiRoutes);
 // --- Database Connection ---
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('✅ Connected to MongoDB'))
