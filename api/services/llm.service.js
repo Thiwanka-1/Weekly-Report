@@ -19,8 +19,8 @@ export const generateAIResponse = async (managerQuestion, reportsContext) => {
                 { role: 'system', content: systemPrompt },
                 { role: 'user', content: `Context (Recent Reports):\n${reportsContext}\n\nManager Question: ${managerQuestion}` }
             ],
-            // Llama 3 8B is lightning fast and perfect for this task
-            model: 'llama3-8b-8192', 
+            // Updated to the current, active Llama 3.1 model on Groq
+            model: 'llama-3.1-8b-instant', 
             temperature: 0.5,
         });
 

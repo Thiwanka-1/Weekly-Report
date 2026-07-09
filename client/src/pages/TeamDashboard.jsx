@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import { Link } from 'react-router-dom'; // IMPORT LINK
 import { AuthContext } from '../context/AuthContext';
 import AiChatWidget from '../components/AiChatWidget';
 import api from '../utils/axios';
@@ -14,21 +15,16 @@ const TeamDashboard = () => {
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
-                // Fetch reports across the team
                 const res = await api.get('/reports/team');
                 const data = res.data;
                 setReports(data);
 
-                // Calculate Summary Metrics
                 const total = data.length;
                 const blockersCount = data.filter(r => r.blockers && r.blockers.trim() !== 'None' && r.blockers.trim() !== '').length;
-                
-                // Assuming compliance is total reports vs expected (Mocking expected at 10 for demo purposes)
                 const compliance = Math.min((total / 10) * 100, 100).toFixed(0) + '%';
                 
                 setMetrics({ total, blockers: blockersCount, complianceRate: compliance });
 
-                // Format data for Recharts (Workload/Task distribution by project)
                 const projectCounts = {};
                 data.forEach(r => {
                     const pName = r.projectId?.name || 'Unassigned';
@@ -58,16 +54,21 @@ const TeamDashboard = () => {
                     <h1 className="text-3xl font-bold text-white">Manager Dashboard</h1>
                     <p className="text-sm text-gray-400">Team overview and insights</p>
                 </div>
-                <button onClick={logout} className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-red-400 rounded-lg border border-slate-600 transition-colors">
-                    Logout
-                </button>
+                <div className="flex gap-4">
+                    {/* NEW: Manage Projects Button */}
+                    <Link to="/proj" className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors">
+                        Manage Projects
+                    </Link>
+                    <button onClick={logout} className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-red-400 rounded-lg border border-slate-600 transition-colors">
+                        Logout
+                    </button>
+                </div>
             </div>
 
             {isLoading ? (
                 <div className="text-center text-gray-400 mt-20">Loading dashboard...</div>
             ) : (
                 <div className="max-w-7xl mx-auto space-y-6">
-                    
                     {/* Summary Metrics Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="bg-slate-800/50 backdrop-blur-md border border-slate-700 rounded-2xl p-6 shadow-lg text-center">
@@ -86,7 +87,6 @@ const TeamDashboard = () => {
 
                     {/* Chart & Recent Activity Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        
                         {/* Recharts Chart */}
                         <div className="bg-slate-800/50 backdrop-blur-md border border-slate-700 rounded-2xl p-6 shadow-lg">
                             <h3 className="text-xl font-semibold mb-6 text-white">Reports by Project</h3>
@@ -128,7 +128,6 @@ const TeamDashboard = () => {
                 </div>
             )}
             
-            {/* The AI Chat Assistant Widget Component */}
             <AiChatWidget />
         </div>
     );

@@ -22,7 +22,7 @@ const Login = () => {
             if (userData.role === 'Manager') {
                 navigate('/dashboard');
             } else {
-                navigate('/my-reports');
+                navigate('/member-dashboard');
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to login');

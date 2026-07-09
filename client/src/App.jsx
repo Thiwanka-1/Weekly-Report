@@ -6,9 +6,7 @@ import Register from './pages/Register';
 import PersonalReport from './pages/PersonalReport';
 import TeamDashboard from './pages/TeamDashboard';
 import ProjectsAdmin from './pages/ProjectsAdmin';
-
-// Placeholder
-//const TeamDashboard = () => <div className="p-8 text-2xl font-bold">Manager Dashboard</div>;
+import MemberDashboard from './pages/MemberDashboard';
 
 function App() {
   return (
@@ -18,15 +16,16 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           
-          {/* Protected Routes using the wrapper! */}
+          {/* Protected Routes for ANY logged-in user */}
           <Route element={<ProtectedRoute />}>
+              <Route path="/member-dashboard" element={<MemberDashboard />} />
               <Route path="/my-reports" element={<PersonalReport />} />
           </Route>
           
+          {/* Protected Routes for MANAGERS ONLY */}
           <Route element={<ProtectedRoute allowedRoles={['Manager']} />}>
               <Route path="/dashboard" element={<TeamDashboard />} />
               <Route path="/proj" element={<ProjectsAdmin />} />
-
           </Route>
 
           <Route path="/" element={<Navigate to="/login" replace />} />
